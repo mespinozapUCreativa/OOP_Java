@@ -1,9 +1,8 @@
 package com.ucreativa.oop.presupuesto;
 
-import com.ucreativa.oop.presupuesto.entidades.Gasto;
-import com.ucreativa.oop.presupuesto.entidades.Ingreso;
-import com.ucreativa.oop.presupuesto.entidades.Movimiento;
-import com.ucreativa.oop.presupuesto.entidades.RegistroMovimientos;
+import com.ucreativa.oop.presupuesto.logicaNegocio.ImplementacionRegistro;
+import com.ucreativa.oop.presupuesto.logicaNegocio.ImplementacionSuperDummy;
+import com.ucreativa.oop.presupuesto.logicaNegocio.InterfaceRegistro;
 
 import java.util.Scanner;
 
@@ -14,43 +13,36 @@ public class Main {
         System.out.println("Sistema Registro de Movimientos");
         Scanner consola = new Scanner(System.in);
         boolean siga = true;
-        RegistroMovimientos registo = new RegistroMovimientos();
+        System.out.println("Que quiere usar? Fake? (F):");
+        InterfaceRegistro registro;
+        if (consola.nextLine().equals("F")) {
+            registro = new ImplementacionSuperDummy();
+        }else {
+            registro = new ImplementacionRegistro();
+        }
 
         while (siga) {
-            System.out.println("Digite el nombre de su movimiento:");
-            String nombre = consola.nextLine();
+            System.out.println("Digite el nombre de su Movimiento:");
 
-            System.out.println("Digite la Moneda:");
-            String moneda = consola.nextLine();
-
-            System.out.println("Digite la categoria de su movimiento:");
-            String categoria = consola.nextLine();
-
-            System.out.println("Digite el monto de su movimiento:");
+            System.out.println("Digite el monto de su Movimiento:");
             String montoStr = consola.nextLine();
-            int monto = Integer.parseInt(montoStr);
-
-            Movimiento nuevoMovimiento;
 
             System.out.println("Indique si es un Gasto (S)");
             if (consola.nextLine().equals("S")){
-                nuevoMovimiento = new Gasto(nombre, moneda, categoria, monto);
+                registro.addGasto = new Gasto(nombre, moneda, categoria, montoStr);
             } else {
                 System.out.println("Especifique la Periodicidad: ");
                 String periodicidad = consola.nextLine();
 
-                nuevoMovimiento = new Ingreso(nombre, moneda, categoria, monto, periodicidad);
+                registro.addIngreso(nombre, moneda, categoria, montoStr, periodicidad);
             }
 
-            registo.addMovimiento(nuevoMovimiento);
+            System.out.println("Todos los movimientos:");
 
-                for (Movimiento movimientos : registo.getMovimientos()) {
-                    System.out.println(movimientos.getNombre());
-                }
+            registro.getGastos();
 
-                System.out.println("Solo Gastos");
-                for (Movimiento gastico : registo.getGastos()) {
-                    System.out.println(gastico.getNombre());
+            System.out.println("Quiere Seguir?(`S`)");
+            siga = consola.nextLine().equals("S");
             }
         }
     }

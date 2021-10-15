@@ -2,9 +2,9 @@ package com.ucreativa.oop.presupuesto.logicaNegocio;
 
 import com.ucreativa.oop.presupuesto.entidades.Movimiento;
 
-import com.ucreativa.oop.presupuesto.entidades.Movimiento;
 
 public class ImplementacionSuperDummy implements InterfaceRegistro, InterfaceReportes {
+
 
     @Override
     public void getMovimientos() {

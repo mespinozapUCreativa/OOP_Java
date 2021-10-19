@@ -24,7 +24,7 @@ public class ImplementacionRegistro implements InterfaceRegistro, InterfaceRepor
     }
 
     @Override
-    public void addIngreso(String nombre, String moneda, String categoria, String montoStr, String periodicidad) {
+    public boolean addIngreso(String nombre, String moneda, String categoria, String montoStr, String periodicidad) {
 
         if (!moneda.equals("USD")) {
             System.out.println("Moneda No validad");
@@ -36,19 +36,21 @@ public class ImplementacionRegistro implements InterfaceRegistro, InterfaceRepor
                     monto,
                     periodicidad));
         }
+        return true;
     }
 
     @Override
-    public void addGasto(String nombre, String moneda, String categoria, String montoStr) {
+    public boolean addGasto(String nombre, String moneda, String categoria, String montoStr) {
         int monto = Integer.parseInt(montoStr);
         this.movimientos.add(new Gasto(nombre,
                 moneda,
                 categoria,
                 monto));
+        return true;
     }
 
     // Methodo 3
-    ublic void getGastos() {
+    public void getGastos() {
         for (Movimiento movimiento : this.movimientos) {
             if (movimiento instanceof Gasto) {
                 System.out.println(movimiento.getDetails());

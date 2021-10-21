@@ -13,7 +13,7 @@ public class FileRepository implements InterfaceRepository{
             FileWriter fileWriter = new FileWriter(this.FILE_PATH, true);
             BufferedWriter writer = new BufferedWriter(fileWriter);
             writer.append(text).append("\n");
-            writer.close();
+
             return true;
         }catch (IOException e){
             e.printStackTrace();

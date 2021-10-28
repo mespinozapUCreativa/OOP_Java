@@ -1,10 +1,6 @@
 package com.ucreativa.oop.presupuesto;
 
-import com.ucreativa.oop.presupuesto.logicaNegocio.ImplementacionRegistro;
-import com.ucreativa.oop.presupuesto.logicaNegocio.ImplementacionSuperDummy;
-import com.ucreativa.oop.presupuesto.logicaNegocio.InterfaceRegistro;
-
-import com.ucreativa.oop.presupuesto.ui.FrontEnd;
+import com.ucreativa.oop.presupuesto.logicaNegocio.FrontEnd;
 
 public class Main {
 

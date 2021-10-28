@@ -8,8 +8,5 @@ public interface InterfaceRegistro {
 
     void addGasto(String nombre, String moneda, String categoria, String montoStr) throws ErrorMuyPocaData;
 
-    void getMovimientos();
-
-    void getGastos();
 
 }

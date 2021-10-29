@@ -1,12 +1,13 @@
 package com.ucreativa.oop.presupuesto.ui;
 
-import com.ucreativa.oop.presupuesto.logicaNegocio.ImplementacionRegistro;
-import com.ucreativa.oop.presupuesto.logicaNegocio.InterfaceRegistro;
+import com.ucreativa.oop.presupuesto.logicaNegocio.*;
+import com.ucreativa.oop.presupuesto.repo.ErrorMuyPocaData;
 import com.ucreativa.oop.presupuesto.repo.FileRepository;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.util.stream.Collectors;
 
 public class FrontEnd extends JFrame {
 
@@ -21,6 +22,7 @@ public class FrontEnd extends JFrame {
     public void build(){
 
         InterfaceRegistro registo = new ImplementacionRegistro(new FileRepository());
+        InterfaceReportes reportes = new ImplementacionReportes(new FileRepository());
 
         // Create Components
         JLabel lblNombre = new JLabel("Nombre");
@@ -59,34 +61,41 @@ public class FrontEnd extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 boolean exitoso;
-                if (ckIsIngreso.isSelected()){
-                    lblWarnings.setText("Salvando Ingreso");
-                    exitoso = registo.addIngreso(txtNombre.getText(),
-                            txtMoneda.getText(),
-                            txtCategoria.getText(),
-                            txtMonto.getText(),
-                            txtPeriodicidad.getText());
-                }else {
-                    lblWarnings.setText("Salvando Gasto");
-                    exitoso = registo.addGasto(txtNombre.getText(),
-                            txtMoneda.getText(),
-                            txtCategoria.getText(),
-                            txtMonto.getText());
-                }
-                if (exitoso){
-                    txtNombre.setText("");
-                    txtMoneda.setText("");
-                    txtCategoria.setText("");
-                    txtMonto.setText("");
-                    txtPeriodicidad.setText("");
+                try {
+                    if (ckIsIngreso.isSelected()) {
+                        lblWarnings.setText("Salvando Ingreso");
+                        exitoso = registo.addIngreso(txtNombre.getText(),
+                                txtMoneda.getText(),
+                                txtCategoria.getText(),
+                                txtMonto.getText(),
+                                txtPeriodicidad.getText());
+                    } else {
+                        lblWarnings.setText("Salvando Gasto");
+                        exitoso = registo.addGasto(txtNombre.getText(),
+                                txtMoneda.getText(),
+                                txtCategoria.getText(),
+                                txtMonto.getText());
+                    }
+                    if (exitoso) {
+                        txtNombre.setText("");
+                        txtMoneda.setText("");
+                        txtCategoria.setText("");
+                        txtMonto.setText("");
+                        txtPeriodicidad.setText("");
+                    }
+                }catch (FormatoInvalido | ErrorMuyPocaData error){
+                    JOptionPane.showMessageDialog(null, error.getMessage());
+
                 }
             }
         });
         reporte.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                registo.getGastos();
-                registo.getMovimientos();
+                reportes.getGastos();
+
+                JOptionPane.showMessageDialog(FrontEnd.super.rootPane, String.join("", reportes.getMovimientos()));
+
             }
         });
 
